@@ -1,0 +1,28 @@
+name: Instagram tool 
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # every 6 hours
+  workflow_dispatch:       # manual trigger
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "codxbyte@gmail.com"
+          git config --global user.name "codxbyte"
+
+      - name: Create empty commit
+        run: |
+          git commit --allow-empty -m "Instagram tool 🔥"
+
+      - name: Push changes with PAT
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/codxbyte/Instagram-Report-Tool.git
+          git push origin main
+          
